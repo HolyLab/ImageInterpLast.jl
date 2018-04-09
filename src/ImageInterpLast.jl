@@ -1,5 +1,17 @@
+__precompile__()
+
 module ImageInterpLast
 
-# package code goes here
+using CachedSeries, Images, AxisArrays
 
-end # module
+import CachedSeries: update_cache!, cache, cache_idxs
+import Base: size, getindex, show
+
+export interplast, ImageInterpLast2, ImageInterpLast3
+
+include("util.jl")
+include("interp_last2.jl")
+include("interp_last3.jl")
+include("interp_last.jl")
+
+end
