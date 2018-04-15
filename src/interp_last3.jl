@@ -1,11 +1,11 @@
 #Note: these are almost the same methods as defined for ImageInterpLast2.  Some are even exact duplicates.
 #However we need to inherit from CachedSeries3D.  A redesign (mabye using traits) would prevent this duplication
 
-mutable struct ImageInterpLast3{TO,TI,N} <: CachedSeries3D{TO,TI,N}
-    parent::AbstractArray{TI,N}
+mutable struct ImageInterpLast3{TO,TI,N,N2,A} <: CachedSeries3D{TO,TI,N} where A<:AbstractArray{TI,N}
+    parent::A
     coefs::Vector{Float64}
     cached::Array{TO,3}
-    cache_idxs::Tuple
+    cache_idxs::NTuple{N2,Int}
 end
 
 #function ImageInterpLast3(img::Array34{T}, coefs, out_type=Float64; correct_bias=true, sqrt_tfm=false) where {T}
@@ -17,8 +17,9 @@ function ImageInterpLast3(img::AbstractArray{T,N}, coefs, out_type=Float64) wher
     if size(img,3) !== length(coefs)
         error("Input image size in the Z-slice dimension (3) should equal the number of interpolation coefficients provided")
     end
-    za = ImageInterpLast3{out_type, T, ndims(img)}(img, coefs, zeros(out_type, size(img)[1:3]...), (ones(ndims(img)-3)...))
-    update_cache!(za, (ones(Int, ndims(img)-3)...))
+    nd = ndims(img)
+    za = ImageInterpLast3{out_type,T,nd,nd-3,typeof(img)}(img, coefs, zeros(out_type, size(img)[1:3]...), (ones(nd-3)...))
+    update_cache!(za, (ones(Int, nd-3)...))
     return za
 end
 
@@ -27,7 +28,7 @@ cache_idxs(A::ImageInterpLast3) = A.cache_idxs
 
 ImageInterpLast3(img::Array34{T}, coef::Float64, out_type=Float64) where {T} = ImageInterpLast3(img, fill(coef, size(img, 3)), out_type)
 
-function update_cache!(A::ImageInterpLast3{TO, TI, N}, inds::NTuple{N2, Int}) where {TO, TI, N, N2}
+function update_cache!(A::ImageInterpLast3{TO,TI,N,N2}, inds::NTuple{N2,Int}) where {TO,TI,N,N2}
     #sometimes indexing works better than views with memory-mapped arrays
     pslice = A.parent[:, :, :, inds...]
     pslice_next = A.parent[:, :, :, Base.front(inds)...,last(inds)+1]
