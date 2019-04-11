@@ -8,10 +8,11 @@ for t = 1:10
 end
 
 img0 = interp_last(a, 0.5; cache3d=false, out_type=Float64)
+img1 = interp_last(a, 0.5; cache3d=false, out_type=Float32)
 img2 = ImgItpLast(a, 0.5, 2, Float64)
 img3 = ImgItpLast(a, 0.5, 3, Float64)
 
-for img in (img0,img2,img3)
+for img in (img0,img1,img2,img3)
     @test all(img[:,:,:,1].==1.5)
     @test all(img[1:2,:,:,1].==1.5)
     @test all(img[1:2,:,2,1].==1.5)
