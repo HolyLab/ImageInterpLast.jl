@@ -6,11 +6,9 @@ const axes = Base.axes
 import CachedArrays: update_cache!, cache, AbstractCachedArray
 import Base: size, getindex, show
 
-export interplast, ImageInterpLast2, ImageInterpLast3
+export interp_last, ImgItpLast
 
 include("util.jl")
-include("interp_last2.jl")
-include("interp_last3.jl")
 include("interp_last.jl")
 
 end

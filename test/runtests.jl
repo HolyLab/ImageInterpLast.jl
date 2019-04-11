@@ -7,10 +7,11 @@ for t = 1:10
     a[:,:,:,t] .= t
 end
 
-img2 = ImageInterpLast2(a, 0.5, Float64)
-img3 = ImageInterpLast3(a, 0.5, Float64) 
+img0 = interp_last(a, 0.5; cache3d=false, out_type=Float64)
+img2 = ImgItpLast(a, 0.5, 2, Float64)
+img3 = ImgItpLast(a, 0.5, 3, Float64)
 
-for img in (img2,img3)
+for img in (img0,img2,img3)
     @test all(img[:,:,:,1].==1.5)
     @test all(img[1:2,:,:,1].==1.5)
     @test all(img[1:2,:,2,1].==1.5)
@@ -22,8 +23,8 @@ end
 coefs = fill(0.25, 10)
 coefs[6:10] .= 1.0
 
-img2 = ImageInterpLast2(a, coefs, Float64)
-img3 = ImageInterpLast3(a, coefs, Float64) 
+img2 = ImgItpLast(a, coefs, 2, Float64)
+img3 = ImgItpLast(a, coefs, 3, Float64)
 
 for img in (img2,img3)
     @test all(img[:,:,1:5,1].==1.75)
@@ -43,8 +44,8 @@ for img in (img2,img3)
     @test all(img[1:2,:,7,2].==2.0)
 end
 
-img4 = interplast(a, coefs; cache3d=false, out_type=Float64) 
-img5 = interplast(a, coefs; cache3d=true, out_type=Float64)
+img4 = interp_last(a, coefs; cache3d=false, out_type=Float64)
+img5 = interp_last(a, coefs; cache3d=true, out_type=Float64)
 
 @test all(img4[:,:,:,:].==img2[:,:,:,:])
 @test all(img5[:,:,:,:].==img3[:,:,:,:])
