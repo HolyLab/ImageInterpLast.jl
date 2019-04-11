@@ -1,10 +1,10 @@
 using ImageInterpLast
 
-using Base.Test
+using Test
 
 a = zeros(10,10,10,10)
 for t = 1:10
-    a[:,:,:,t] = t
+    a[:,:,:,t] .= t
 end
 
 img2 = ImageInterpLast2(a, 0.5, Float64)
@@ -20,7 +20,7 @@ for img in (img2,img3)
 end
 
 coefs = fill(0.25, 10)
-coefs[6:10] = 1.0
+coefs[6:10] .= 1.0
 
 img2 = ImageInterpLast2(a, coefs, Float64)
 img3 = ImageInterpLast3(a, coefs, Float64) 

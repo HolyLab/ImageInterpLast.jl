@@ -1,0 +1,14 @@
+name = "ImageInterpLast"
+uuid = "2857f282-5c94-11e9-0b5d-cb5f26255b42"
+version = "0.1.0"
+
+[deps]
+AxisArrays = "39de3d68-74b9-583c-8d2d-e117c070f3a9"
+CachedArrays = "d8fd01e4-1764-11e9-0a01-8f76bebf08d8"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
