@@ -1,4 +1,4 @@
-julia 0.6
-CachedSeries
+julia 1.0
+CachedArrays
 Images
 AxisArrays
