@@ -1,6 +1,6 @@
 name = "ImageInterpLast"
 uuid = "2857f282-5c94-11e9-0b5d-cb5f26255b42"
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 AxisArrays = "39de3d68-74b9-583c-8d2d-e117c070f3a9"
